@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>컨트롤러에서 보낸 리스트 출력 인라인 방식으로</h1>
+	<h2>[[${list}]]</h2>
+	<hr>
+	<h2 th:text="${list}"></h2>
+	
+	<!-- th:each 사용 -->
+	<ul>
+		<li th:each="str:${list}" th:text="${str}"></li>
+	</ul>
+	
+	<hr>
+	
+	<ul>
+		<li th:each="str:${list}">[[${str}]]</li>
+	</ul>
+	
+	<hr>
+	
+	<ul>
+		<th:block th:each="str:${list}">
+			<li>[[${str}]]</li>
+		</th:block>
+	</ul>
+	<hr>
+	
+	<ul>
+		<li th:each="str, status:${list}">
+		[[${status.count}]] - [[${str}]]
+		</li>
+	</ul>
+	<hr>
+	
+	<ul>
+		<li th:each="str, status:${list}">
+			<span th:if="${status.odd}">odd--[[${str}]]</span>
+			<span th:unless="${status.odd}">even--[[${str}]]</span>
+		</li>
+	</ul>
+	<hr>
+	
+	<ul>
+		<li th:each="str, status:${list}">
+			<span th:text="${status.odd} ? 'odd ---' + ${str} : 'even --- ' + ${str}"></span>
+		</li>
+	</ul>
+	<hr>
+	
+	<ul>
+		<li th:each="str, status:${list}">
+			<th:block th:switch="${status.index % 3}">
+				<span th:case="0">0--[[${str}]]</span>
+				<span th:case="1">1--[[${str}]]</span>
+				<span th:case="2">2--[[${str}]]</span>
+			</th:block>
+		</li>
+	</ul>
+	<a th:href="@{/hello}">Go to hello</a>
+	<a th:href="@{/hello(name='aaa', age='20')}">Go to hello</a>
+</body>
+</html>

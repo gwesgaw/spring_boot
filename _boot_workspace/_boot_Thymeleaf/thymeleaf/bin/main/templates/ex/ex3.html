@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace ="~{layout/layout :: setFragment(~{this::content})}">
+	<th:block th:fragment ="content">
+		<h3>ex3.html</h3>
+		<h3>[[${arr}]]</h3>
+	</th:block>
+</th:block>

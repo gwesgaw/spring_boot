@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="setFragment(content)">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<h1>Sample Layout Header</h1>
+	</div>
+	
+	<!-- <div layout:fragment="content">
+		<p>Page Content here</p>
+	</div> -->
+		<p>Page Content here2</p>
+		<th:block th:replace="${content}"></th:block>
+	
+	<div>
+		<h1>Sample Layout Footer</h1>
+	</div>
+</body>
+	</th:block>
+</html>
