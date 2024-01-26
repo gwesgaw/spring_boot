@@ -1,0 +1,19 @@
+==== 2024.01.23 ====
+create table board(
+bno bigint auto_increment,
+title varchar(200) not null,
+writer varchar(200) not null,
+content text not null,
+reg_at datetime default now(),
+mod_at datetime default now(),
+primary key(bno));
+
+==== 2024.01.25 ====
+create table comment(
+cno bigint auto_increment,
+bno bigint not null,
+writer varchar(200) not null,
+content text not null,
+reg_at datetime default now(),
+mod_at datetime default now(),
+primary key(cno));

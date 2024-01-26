@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout :: setFragment(~{this::content})}">
+	<th:block th:fragment="content">
+<div class="container-md">
+<h1>게시판 상세보기</h1><br>
+
+<form action="/board/modify" method="post" id="modForm">
+<div class="mb-3">
+  <label for="bno" class="form-label">번호</label>
+  <input type="text" name="bno" class="form-control" id="bno" th:value="${bvo.bno }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="title" class="form-label">제목</label>
+  <input type="text" name="title" class="form-control" id="title" th:value="${bvo.title }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="writer" class="form-label">작성자</label>
+  <input type="text" name="writer" class="form-control" id="writer" th:value="${bvo.writer }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="regAt" class="form-label">작성시간</label>
+  <input type="text" name="regAt" class="form-control" id="regAt" th:value="${bvo.regAt }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="modAt" class="form-label">수정시간</label>
+  <input type="text" name="modAt" class="form-control" id="modAt" th:value="${bvo.modAt }" readonly="readonly">
+</div>
+
+<div class="mb-3">
+  <label for="content" class="form-label">Content</label>
+  <textarea class="form-control" name="content" id="content" rows="3" readonly="readonly">[[${bvo.content }]]</textarea>
+</div>
+	<button type="button" id="listBtn" class="btn btn-primary">리스트</button>
+	<button type="button" id="modBtn" class="btn btn-primary">수정</button>
+	<button type="button" id="delBtn" class="btn btn-primary">삭제</button>
+	
+</form>
+
+
+<!-- <a th:href="@{/board/list}"><button type="button" class="btn btn-primary">List</button></a>
+detail page 에서 modify 상태로 변경하기 위한 버튼
+<a th:href="@{/board/modify(bno=${bvo.bno})}"><button type="button" class="btn btn-success">modify</button></a>
+<a th:href="@{/board/delete(bno=${bvo.bno})}"><button type="button" class="btn btn-danger">delete</button></a> -->
+<br>
+	<form action="/board/delete" method="post" id="delForm" style="display:none">
+		<input type="hidden" name="bno" th:value="${bvo.bno}">
+	</form>
+	
+	<!-- 댓글 등록 라인 -->
+<div class="input-group mb-3" >
+	<span id="cmtWriter" class="input-group-text">[[${bvo.writer }]]</span>
+	<input type="text" id="cmtText" class="form-control" placeholder="댓글을 입력해주세요.">
+	<button type="button" id="cmtPostBtn" class="btn btn-outline-secondary">댓글 등록</button>
+</div>
+<br>
+
+<!-- 댓글 표시 라인 -->
+<div class="list-group" id="cmtListArea">
+  <li class="list-group-item">
+	<div class="ms-3">
+		<div class="fw-bold">Writer</div>
+		Content
+	</div>  
+	<span class="badge text-bg-primary">modAt</span>
+  </li>
+</div>
+
+	<!-- 댓글 더보기 버튼 -->
+	<div class="row">
+		<div class="clo d- grid">
+			<button type="button" id="moreBtn" data-page="1" 
+			class="btn btn-outline-secondary btn-block" style="visibility:hidden">댓글더보기</button>
+		</div>
+	</div>
+
+<!-- 모달라인 -->
+<div class="modal" id="myModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">[[${bvo.writer }]]</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="cmtTextMod" class="form-control" placeholder="댓글을 입력해주세요.">
+      </div>
+      <div class="modal-footer">
+		<button type="button" id="cmtModBtn" class="btn btn-outline-secondary">수정</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script th:inline="javascript">
+ const bnoVal = `[[${bvo.bno}]]`;
+</script>
+	<script th:src="@{/js/boardComment.js}"></script>
+	
+	<script type="text/javascript">
+		spreadCommentList(bnoVal);
+	</script>
+	
+	<script th:src="@{/js/boardDetail.js}"></script>
+	</th:block>
+</th:block>

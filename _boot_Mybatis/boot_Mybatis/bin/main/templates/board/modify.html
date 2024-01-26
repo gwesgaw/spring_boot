@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout :: setFragment(~{this::content})}">
+	<th:block th:fragment="content">
+<div class="container-md">
+<h1>게시판 수정</h1>
+<form action="/board/modify" method="post">
+
+<div class="mb-3">
+  <label for="bno" class="form-label">번호</label>
+  <input type="text" name="bno" class="form-control" id="bno" th:value="${bvo.bno }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="title" class="form-label">제목</label>
+  <input type="text" name="title" class="form-control" id="title" th:value="${bvo.title }">
+</div>
+<div class="mb-3">
+  <label for="writer" class="form-label">작성자</label>
+  <input type="text" name="writer" class="form-control" th:value="${bvo.writer }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="regAt" class="form-label">작성시간</label>
+  <input type="text" name="regAt" class="form-control" th:value="${bvo.regAt }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="modAt" class="form-label">수정시간</label>
+  <input type="text" name="modAt" class="form-control" th:value="${bvo.modAt }" readonly="readonly">
+</div>
+<div class="mb-3">
+  <label for="content" class="form-label">Content</label>
+  <textarea class="form-control" name="content" id="content" rows="3">[[${bvo.content }]]</textarea>
+</div>
+
+<button type="submit" class="btn btn-success" id="regBtn">modify</button>
+<a th:href="@{/board/list}"><button type="button" class="btn btn-primary">List</button></a>
+</form>
+</div>
+	</th:block>
+</th:block>
