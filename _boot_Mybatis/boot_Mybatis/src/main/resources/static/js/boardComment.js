@@ -126,6 +126,14 @@ document.addEventListener('click', (e)=>{
         })
     }else if(e.target.classList.contains('del')){
         // 삭제
+        let li = e.target.closest('li');
+        let cnoVal = li.dataset.cno;
+        removeCommentFromServer(cnoVal).then(result=>{
+            if(result==="1"){
+                alert("댓글 삭제 성공");
+                spreadCommentList(bnoVal);
+            }
+        })
     }else if(e.target.id == 'moreBtn'){
         spreadCommentList(bnoVal, parseInt(e.target.dataset.page));
     }
@@ -145,6 +153,21 @@ async function editCommentToServer(cmtDataMod){
         const resp = await fetch(url, config);
         const result = resp.text();
         return result;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function removeCommentFromServer(cno){
+    try {
+            const url = "/comment/remove/" + cno;
+            const config = {
+                method: "delete"
+            }
+            const resp = await fetch(url, config);
+            const result = await resp.text();
+            return result;
+
     } catch (error) {
         console.log(error);
     }

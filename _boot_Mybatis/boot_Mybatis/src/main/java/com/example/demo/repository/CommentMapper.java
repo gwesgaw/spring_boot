@@ -19,4 +19,6 @@ public interface CommentMapper {
 
 	int bnoTotalCount(long bno);
 
+	int delete(long cno);
+
 }

@@ -24,4 +24,8 @@
     		select count(cno) from comment where bno = #{bno}
     	</select>
     	
+    	<delete id="delete">
+	    	delete from comment where cno = #{cno}
+	    </delete>
+    	
     </mapper>

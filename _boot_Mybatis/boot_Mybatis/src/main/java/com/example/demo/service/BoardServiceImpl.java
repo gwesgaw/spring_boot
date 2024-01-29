@@ -3,10 +3,14 @@ package com.example.demo.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.BoardDTO;
 import com.example.demo.domain.BoardVO;
+import com.example.demo.domain.FileVO;
 import com.example.demo.domain.PagingVO;
 import com.example.demo.repository.BoardMapper;
+import com.example.demo.repository.FileMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +21,22 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardServiceImpl implements BoardService {
 
 	private final BoardMapper mapper;
+	private final FileMapper fileMapper;
 
+	@Transactional
 	@Override
-	public void register(BoardVO bvo) {
+	public int register(BoardDTO bdto) {
 		// TODO Auto-generated method stub
-		mapper.insert(bvo);
+		int isOk = mapper.insert(bdto.getBvo());
 		
+		if(isOk > 0 && bdto.getFlist().size()>0) {
+			long bno = mapper.getBno();
+			for(FileVO fvo : bdto.getFlist()) {
+				fvo.setBno(bno);
+				isOk*= fileMapper.insertFile(fvo);
+			}
+		}
+		return isOk;
 	}
 
 	@Override
@@ -32,15 +46,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO getDetail(long bno) {
+	public BoardDTO getDetail(long bno) {
 		// TODO Auto-generated method stub
-		return mapper.selectDetail(bno);
+		BoardDTO bdto = new BoardDTO();
+		bdto.setBvo(mapper.selectDetail(bno));
+		bdto.setFlist(fileMapper.getFileList(bno));
+		
+		return bdto;
 	}
 
 	@Override
-	public void modify(BoardVO bvo) {
+	public int modify(BoardVO bvo) {
 		// TODO Auto-generated method stub
-		mapper.updateModify(bvo);
+		return mapper.updateModify(bvo);
 	}
 
 	@Override
